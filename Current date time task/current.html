@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Current Date and Time task</title>
+</head>
+
+<body>
+    <h1>Current Date and Time task</h1>
+
+    <p id="date"></p>
+    <p id="time"></p>
+
+    <script>
+        function currentDateTime() {
+
+            const currentDate = new Date(); 
+
+          
+            const date = currentDate.toLocaleDateString(); 
+            const time = currentDate.toLocaleTimeString();
+
+      
+            document.getElementById("date").innerHTML = `Current date is: ${date}`;
+            document.getElementById("time").innerHTML = `Current time is: ${time}`;
+        }
+
+        currentDateTime(); 
+    </script>
+</body>
+
+</html>
