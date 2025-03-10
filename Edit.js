@@ -1,57 +1,65 @@
-import React from 'react';
-import axios from 'axios';
-import {useNavigate,useParams} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Button, Form } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
+import array from "./array";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Edit() {
-    const [title,settitle]=React.useState("")
-    const [details,setdetails]=React.useState("")
-
-    var {id} = useParams()
-    var mynavigate=useNavigate()
-
-    const getdata = ()=>{
-        axios.get(`https://akashsir.in/myapi/crud/todo-detail-api.php?todo_id=${id}`)
-        .then(res=>{
-            settitle(res.data.todo_title)
-            setdetails(res.data.todo_details)
-        })
-        .catch(err=>alert(err))
-    }
-
-    const updataData=()=>{
-
-        var myformdata=new FormData()
-        myformdata.append("todo_title",title)
-        myformdata.append("todo_details",details)
-        myformdata.append("todo_id",id)
-        axios.post("https://akashsir.in/myapi/crud/todo-update-api.php",myformdata)
-        .then(res=>{
-            if(res.data.flag==="1"){
-                mynavigate('/display')
-            }
-            else
-            {
-                alert("Technical Issue"+res.data.message)
-            }
-        })
-        .catch(err=>console.log(err))
-    }  
     
-    React.useEffect(()=>{
-        getdata()
+    const [name, setname] = useState("");
+    const [age, setage] = useState("");
+    const [id, setid] = useState("");
 
-    },[])
-    return (  <>
-    <h1>Edit</h1>
-    {id}
+    
+    let history = useNavigate();
 
+   
+    let index = array
+        .map(function (e) {return e.id; })
+        .indexOf(id);
 
-Title:<input type='text' value={title} onChange={(e)=>settitle(e.target.value)}/>
-Details:<input type='text' value={details} onChange={(e)=>setdetails(e.target.value)}/>
-<input type='button' value="Add" onClick={()=>updataData()}/>
+   
+    const handelSubmit = (e) => {
+       
+        e.preventDefault();
+        if (name == "" || age == "") {
+            alert("invalid input");
+            return;
+        }
+        let a = array[index];
+        a.Name = name;
+        a.Age = age;
+       history("/");
+    };
 
- 
-    </>);
+   
+    useEffect(() => {
+        setname(localStorage.getItem("Name"));
+        setage(localStorage.getItem("Age"));
+        setid(localStorage.getItem("id"));
+    }, []);
+
+    return (
+        <div>
+            <Form className="d-grid gap-2" style={{ margin: "5rem" }} >
+                
+                <Form.Group className="mb-3" controlId="formBasicEmail" >
+                    <Form.Control value={name}  onChange={(e) =>setname(e.target.value)} type="text" placeholder="Enter Name" />
+                </Form.Group>
+                <Form.Group  className="mb-3" controlId="formBasicPassword">
+                    <Form.Control value={age} onChange={(e) => setage(e.target.value) }type="number" placeholder="Age"/>
+                </Form.Group>
+                 <Button onClick={(e) => handelSubmit(e)} variant="primary" type="submit" size="lg">
+                    Update
+                </Button>
+                 <Link className="d-grid gap-2" to="/">
+                  <button variant="warning" size="lg"> Home
+                  </button>
+                  </Link>
+            </Form>
+        </div>
+    );
 }
 
 export default Edit;

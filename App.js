@@ -1,36 +1,41 @@
 // import './App.css';
-// import Display from './Display';
-// import Fetchapi from './Fetchapi';
-// import Fetchapi2 from './Fetchapi2';
-// import Add from './Add';
+
 // function App() {
 //   return (
 //     <div className="App">
-      
-//       <Add></Add>
-//       <Display></Display>
+//       <h1>crud operation </h1>
+    
 //     </div>
 //   );
 // }
 
 // export default App;
-import React from 'react';
-import { BrowserRouter as Router } from 'react-router-dom'; // Import Router for routing
-import './App.css';
-import Display from './Display'; // Display component for listing items
-import Add from './Add'; // Add component for adding items
-import Edit from './Edit';
+// Filename - App.js
 
+import React from "react";
+import {
+    BrowserRouter as Router,
+    Route,
+    Routes,
+} from "react-router-dom";
+import "./App.css";
+import Create from "./Create";
+import Edit from "./Edit";
+import Home from "./Home";
 function App() {
-  return (
-    <Router> {/* Wrap your app in BrowserRouter for routing */}
-      <div className="App">
-        <Add /> {/* Render Add component */}
-        <Display /> {/* Render Display component */}
-        <Edit></Edit>
-      </div>
-    </Router>
-  );
+    return (
+        <div className="App">
+            <h1 className="geeks">Crud task</h1>
+            
+            <Router>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/create" element={<Create />} />
+                    <Route path="/edit" element={<Edit />}/>
+                </Routes>
+            </Router>
+        </div>
+    );
 }
 
 export default App;
